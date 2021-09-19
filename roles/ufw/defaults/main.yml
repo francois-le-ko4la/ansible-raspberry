@@ -1,0 +1,6 @@
+---
+ufw_app_def:
+  - openssh-server
+
+ufw_rules:
+  - OpenSSH

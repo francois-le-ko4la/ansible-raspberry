@@ -1,0 +1,49 @@
+---
+
+- name: Install ufw
+  apt:
+    package: ufw
+    state: present
+  tags:
+    - packages
+
+- name: Push app settings {{ufw_app_def}} 
+  template:
+    src: '{{item}}.j2'
+    dest: '/etc/ufw/applications.d/{{item}}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ufw_app_def}}"
+  notify:
+    - reload ufw
+  tags:
+    - configuration
+
+- name: configure ufw defaults
+  community.general.ufw:
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  with_items:
+    - { direction: "incoming", policy: "deny" }
+    - { direction: "outgoing", policy: "allow" }
+  notify:
+    - reload ufw
+  tags:
+    - configuration
+
+- name: Allow server App {{ ufw_rules }}
+  community.general.ufw:
+    rule: allow
+    name: "{{item}}"
+  with_items: "{{ufw_rules}}"
+  notify:
+    - reload ufw
+  tags:
+    - configuration
+
+- name: enable ufw
+  ufw:
+    state: enabled
+  tags:
+    - configuration

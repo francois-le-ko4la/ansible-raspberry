@@ -1,0 +1,8 @@
+---
+
+- name: Install adguard-home
+  snap:
+    name: adguard-home
+    classic: yes
+  tags:
+    - packages

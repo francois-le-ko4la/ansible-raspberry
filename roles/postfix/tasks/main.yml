@@ -1,0 +1,71 @@
+---
+- name: Set Postfix option hostname
+  debconf:
+    name=postifx
+    question="postfix/mailname"
+    value={{ ansible_hostname }}
+    vtype="string"
+  tags:
+    - packages
+    - configuration
+
+- name: Set Postfix option mailer type
+  debconf:
+    name=postifx
+    question="postfix/main_mailer_type"
+    value="Internet Site"
+    vtype="string"
+  tags:
+    - packages
+    - configuration
+
+- name: install package {{ postfix_pkg }}
+  apt:
+    name: "{{ postfix_pkg }}"
+    state: present
+    autoclean: yes
+  tags:
+    - packages
+
+- name: Setup Gmail password
+  copy:
+    content: '{{ postfix_smtp_server }} {{ postfix_smtp_user }}:{{ postfix_smtp_password }}'
+    dest: "{{ postfix_sasl_password }}"
+    owner: root
+    group: root
+    mode: '0400'
+    backup: no
+  notify:
+    - Postmap lookup
+    - Generate the certificate
+    - Copy the certificate
+    - Restart postfix service
+  tags:
+    - configuration
+
+- name: SMTP -> Google
+  community.general.ini_file:
+    section: null
+    path: "{{ postfix_config }}"
+    option: relayhost
+    value: "{{ postfix_smtp_server }}"
+    backup: no
+  notify:
+    - Restart postfix service
+  tags:
+    - configuration
+
+- name: SMTP SASL
+  lineinfile:
+    dest: "{{ postfix_config }}"
+    line: '{{ item }}'
+  with_items:
+    - 'smtp_sasl_auth_enable = yes'
+    - 'smtp_sasl_password_maps = hash:{{ postfix_sasl_password }}'
+    - 'smtp_sasl_security_options = noanonymous'
+    - 'smtp_tls_CAfile = /etc/postfix/cacert.pem'
+    - 'smtp_use_tls = yes'
+  notify:
+    - Restart postfix service
+  tags:
+    - configuration

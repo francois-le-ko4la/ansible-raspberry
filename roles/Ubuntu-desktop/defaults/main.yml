@@ -1,0 +1,15 @@
+---
+desktop_pkg:
+  - ubuntu-restricted-extras
+  - libavcodec-extra
+  - vlc
+  - libgles2-mesa
+  - libgles2-mesa-dev
+  - xorg-dev
+  - caffeine
+  - gnome-shell-extension-caffeine
+
+std_user: "internet"
+std_password: '$6$zez9DIWqyC6OYNu2$.6s8qTJPqgIvZnaFDlPlmYZkKb.zCnu3pyHDhShIxR.w3xQbXTTVTAyZ3ysDtag9ahMX8NZG7y.JU4wkqyxPx0'
+
+gdm_config: "/etc/gdm3/custom.conf"

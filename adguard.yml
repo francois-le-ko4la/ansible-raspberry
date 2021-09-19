@@ -1,0 +1,16 @@
+---
+
+# Playbook to manage Rasp/Ubuntu config
+
+- name: Setup Adguard
+  hosts: adguard
+  remote_user: "{{ ansible_user }}"
+  become: yes
+  roles:
+    - adguard-home
+
+  tasks:
+  - name: Congratulations!
+    debug:
+      msg:
+        - "Your Adguard Raspi is ready now!"

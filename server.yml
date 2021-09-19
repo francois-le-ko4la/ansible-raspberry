@@ -1,0 +1,23 @@
+---
+
+# Playbook to manage Rasp/Ubuntu config
+
+- name: Setup Ubuntu/Raspberry
+  hosts: server
+  remote_user: "{{ ansible_user }}"
+  become: yes
+  roles:
+
+    - updateSystem
+    - swapOff
+    - ufw
+    - postfix
+    - unattended-upgrades
+    - other
+    - pi4 #adapt this part according to your plateform
+
+  tasks:
+  - name: Congratulations!
+    debug:
+      msg:
+        - "Your {{ my_profile }} Raspi is ready now!"

@@ -1,0 +1,16 @@
+---
+
+- name: Postmap lookup
+  command: postmap "{{ postfix_config }}"
+
+- name: Generate the certificate
+  command: openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout /etc/ssl/certs/key-for-smtp-gmail.pem -out /etc/ssl/certs/cert-for-smtp-gmail.pem -subj "/C=PE/ST=Lima/L=Lima/O=Acme Inc. /OU=IT Department/CN=acme.com"
+
+- name: Copy the certificate
+  command: cp /etc/ssl/certs/cert-for-smtp-gmail.pem /etc/postfix/cacert.pem
+
+- name: Restart postfix service
+  service:
+    name: postfix
+    state: restarted
+    enabled: true

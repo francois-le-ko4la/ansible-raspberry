@@ -1,0 +1,11 @@
+---
+my_profile: "Desktop"
+
+apt_periodic: 1
+
+ufw_app_def:
+  - openssh-server
+
+ufw_rules:
+  - OpenSSH
+

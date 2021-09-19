@@ -1,0 +1,25 @@
+---
+
+- name: Raspberry tools {{ rasp_pkg }}
+  apt:
+    name: "{{ rasp_pkg }}"
+    state: present
+    autoclean: yes
+  tags:
+    - packages
+
+#- name: Wifi and BT Off
+#  lineinfile:
+#    dest: "{{ rasp_config }}"
+#    line: '{{ item }}'
+#  with_items:
+#    - 'dtoverlay=disable-wifi'
+#    - 'dtoverlay=disable-bt'
+#  tags:
+#    - configuration
+
+- name: Update eeprom
+  command: rpi-eeprom-update -d -a
+  tags:
+    - never
+    - update

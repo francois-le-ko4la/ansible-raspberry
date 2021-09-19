@@ -1,0 +1,20 @@
+---
+- name: Rasp - Perf configuration
+  ini_file:
+    path: "{{ rasp_config }}"
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    backup: no
+    no_extra_spaces: yes
+  with_items:
+    - { section: "pi4", option: "max_framebuffers", value: "1" }
+    - { section: "pi4", option: "dtoverlay", value: "vc4-kms-v3d, cma-128" }
+    - { section: "pi4", option: "gpu_mem", value: "512" }
+    - { section: "pi4", option: "hdmi_group", value: "1" }
+    - { section: "pi4", option: "hdmi_mode", value: "4" }
+    - { section: "pi4", option: "hdmi_enable_4kp60", value: "1" }
+    - { section: "pi4", option: "arm_freq", value: "2000" }
+    - { section: "pi4", option: "over_voltage", value: "6" }
+  tags:
+    - configuration

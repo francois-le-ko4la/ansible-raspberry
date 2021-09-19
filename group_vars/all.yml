@@ -1,0 +1,18 @@
+---
+
+### Ansible user to manage target
+ansible_user: svc_ansible
+
+### Desktop user
+std_user: "internet"
+#password is generated and get from /etc/shadow
+std_password: '$6$zez9DIWqyC6OYNu2$.6s8qTJPqgIvZnaFDlPlmYZkKb.zCnu3pyHDhShIxR.w3xQbXTTVTAyZ3ysDtag9ahMX8NZG7y.JU4wkqyxPx0'
+
+### Postfix
+# You should use an app password : https://support.google.com/mail/answer/185833?hl=en-GB
+postfix_smtp_user: "XXX@gmail.com"
+postfix_smtp_password: "lmrzrmovuymtrebr"
+
+### Unattended - Email
+unattended_mail: "XXX"
+

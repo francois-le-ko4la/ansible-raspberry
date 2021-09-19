@@ -1,0 +1,67 @@
+---
+- name: Push unattended settings - 20auto-upgrade 
+  template:
+    src: '20auto-upgrades.j2'
+    dest: '/etc/apt/apt.conf.d/20auto-upgrades'
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - configuration
+
+
+- name: "Mail"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Mail "{{ unattended_mail }}";'
+    insertafter: '^//Unattended-Upgrade::Mail '
+  tags:
+    - configuration
+
+- name: "MailReport"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::MailReport "always";'
+    insertafter: '^//Unattended-Upgrade::MailReport '
+  tags:
+    - configuration
+
+- name: "Remove-Unused-Kernel-Packages"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";'
+    insertafter: '^//Unattended-Upgrade::Remove-Unused-Kernel-Packages '
+  tags:
+    - configuration
+
+- name: "Remove-Unused-Dependencies"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Remove-Unused-Dependencies "true";'
+    insertafter: '^//Unattended-Upgrade::Remove-Unused-Dependencies '
+  tags:
+    - configuration
+
+- name: "Automatic-Reboot"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Automatic-Reboot "true";'
+    insertafter: '^//Unattended-Upgrade::Automatic-Reboot '
+  tags:
+    - configuration
+
+- name: "Automatic-Reboot-WithUsers"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Automatic-Reboot-WithUsers "true";'
+    insertafter: '^//Unattended-Upgrade::Automatic-Reboot-WithUsers '
+  tags:
+    - configuration
+
+- name: "Automatic-Reboot-Time"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Automatic-Reboot-Time "04:00";'
+    insertafter: '^//Unattended-Upgrade::Automatic-Reboot-Time '
+  tags:
+    - configuration

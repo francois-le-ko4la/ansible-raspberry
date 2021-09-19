@@ -1,0 +1,8 @@
+---
+- name: Install package {{ other_pkg }}
+  apt:
+    name: "{{ other_pkg }}"
+    state: present
+    autoclean: yes
+  tags:
+    - packages

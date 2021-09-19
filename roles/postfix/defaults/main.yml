@@ -1,0 +1,13 @@
+---
+postfix_pkg:
+  - postfix
+  - mailutils
+  - libsasl2-2
+  - ca-certificates
+  - libsasl2-modules
+
+postfix_config: "/etc/postfix/main.cf"
+postfix_smtp_server: "[smtp.gmail.com]:587"
+postfix_smtp_user: "XXXX@gmail.com"
+postfix_smtp_password: "XXXXX"
+postfix_sasl_password: "/etc/postfix/sasl_passwd"

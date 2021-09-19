@@ -1,0 +1,12 @@
+---
+- name: Check swap
+  lineinfile:
+    dest: /etc/fstab
+    state: absent
+    regexp: 'swapfile'
+  register: del_swap
+  tags:
+    - configuration
+  notify:
+    - Turn swap off
+

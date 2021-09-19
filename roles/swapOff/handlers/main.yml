@@ -1,0 +1,6 @@
+---
+- name: Turn swap off
+  command: swapoff -a
+  when: del_swap.changed
+  tags:
+    - configuration

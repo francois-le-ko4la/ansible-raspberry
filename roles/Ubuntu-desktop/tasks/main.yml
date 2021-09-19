@@ -1,0 +1,134 @@
+---
+
+- name: Desktop packages {{ desktop_pkg }}
+  apt:
+    name: "{{ desktop_pkg }}"
+    state: present
+    autoclean: yes
+  tags:
+    - packages
+
+- name: Create standard user
+  user:
+    name: "{{ std_user }}"
+    createhome: yes
+    group: users
+    password: "{{ std_password }}"
+    state: present
+  tags:
+    - configuration
+
+- name: Create .config folder
+  ansible.builtin.file:
+    path: "/home/{{ std_user }}/.config/autostart"
+    owner: "{{ std_user }}"
+    group: users
+    state: directory
+    mode: '0700'
+  tags:
+    - configuration
+
+- name: Create .local folder
+  ansible.builtin.file:
+    path: "/home/{{ std_user }}/.local/share/applications"
+    owner: "{{ std_user }}"
+    group: users
+    state: directory
+    mode: '0700'
+  tags:
+    - configuration
+
+- name: Create monitor.xml
+  template:
+    src: monitors.j2
+    dest: "/home/{{ std_user }}/.config/monitors.xml"
+    owner: "{{ std_user }}"
+    group: users
+    mode: 0644
+  tags:
+    - configuration
+
+- name: AutomaticLoginEnable
+  community.general.ini_file:
+    section: daemon
+    path: "{{ gdm_config }}"
+    option: AutomaticLoginEnable
+    value: 'true'
+    backup: no
+  tags:
+    - configuration
+
+- name: Default Login
+  community.general.ini_file:
+    section: daemon
+    path: "{{ gdm_config }}"
+    option: AutomaticLogin
+    value: "{{ std_user }}"
+    backup: no
+  tags:
+    - configuration
+
+- name: Set GTK Theme
+  become_user: "{{ std_user }}"
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/gtk-theme"
+    value: "'Yaru-dark'" 
+    state: present
+  tags:
+    - configuration
+
+- name: Check Tor Browser
+  stat:
+    path: /home/internet/tor-browser_en-US/start-tor-browser.desktop
+  register: tor_present
+  tags:
+    - packages
+
+- name: Download Tor Browser
+  become: yes
+  get_url:
+    url: https://sourceforge.net/projects/tor-browser-ports/files/10.5.6/tor-browser-linux-arm64-10.5.6_en-US.tar.xz
+    dest: /tmp
+    mode: 0755
+  when: not tor_present.stat.exists
+  tags:
+    - packages
+
+- name: Unarchive a file that is already on the remote machine
+  ansible.builtin.unarchive:
+    src: /tmp/tor-browser-linux-arm64-10.5.6_en-US.tar.xz
+    dest: /home/{{ std_user }}/
+    owner: "{{ std_user }}"
+    group: users
+    remote_src: yes
+  when: not tor_present.stat.exists
+  tags:
+    - packages
+
+- name: Add Tor Browser in GTK
+  template:
+    src: start-tor-browser.j2
+    dest: "/home/{{ std_user }}/.local/share/applications/start-tor-browser.desktop"
+    owner: "{{ std_user }}"
+    group: users
+    mode: 0700
+  tags:
+    - configuration
+
+- name: Set favorite apps - Add Tor
+  become_user: "{{ std_user }}"
+  community.general.dconf:
+    key: "/org/gnome/shell/favorite-apps"
+    value: "['start-tor-browser.desktop', 'org.gnome.Nautilus.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']"
+    state: present
+  tags:
+    - configuration
+
+- name: Setup Caffein-indicator - autostart
+  template:
+    src: caffeine-indicator.j2
+    dest: "/home/{{ std_user }}/.config/autostart/caffeine-indicator.desktop"
+    owner: "{{ std_user }}"
+    group: users
+  tags:
+    - configuration
