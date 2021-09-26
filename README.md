@@ -12,9 +12,10 @@ This script allows you to:
   - rpi-eeprom
   - raspi-config
   - linux-firmware-raspi2
-- [x] setup postfix with a GMail account
-- [x] setup unattended upgrades
-- [x] setup config.txt (server Vs Desktop)
+- [x] Setup postfix with a GMail account
+- [x] Setup unattended upgrades
+- [x] Setup config.txt (server Vs Desktop)
+- [x] Install adguard-home (server)
 - [x] Install multimedia packages (Desktop)
   - ubuntu-restricted-extras
   - libavcodec-extra
@@ -38,11 +39,11 @@ Lesser General Public License for more details.
 ### Target env
 
 - Enable `ssh`
-```ssh
+```console
 sudo apt install openssh-server
 ```
 - Create a `Sudo User`
-```ssh
+```console
 adduser <username>
 usermod -aG sudo <username>
 su - <username>
@@ -51,24 +52,24 @@ In my environment, I use `svc_ansible`.
 
 ### Install ansible
 Install ansible and requirements:
-```ssh
+```console
 sudo apt install ansible sshpass
 sudo ansible-galaxy collection install community.general
 ```
 ### Clone git repository
 
-```ssh
+```console
 cd /tmp
 git clone https://github.com/francois-le-ko4la/ansible-raspberry.git
 ```
 ### Prepare playbooks
 
 - change directory
-```ssh
+```console
 cd ansible-raspberry
 ```
-- Modify the hosts file according to your needs.
-```
+- Modify the `hosts` file according to your needs.
+```dosini
 [server]
 192.168.1.250
 
@@ -78,11 +79,6 @@ cd ansible-raspberry
 [desktop]
 192.168.1.145
 ```
-- Update the playbook according to the Sudo User created before :
-```yaml
-remote_user: <username>
-```
-
 - Edit group_vars/all.yml
 ```yaml
 ### Ansible user to manage target
@@ -101,7 +97,6 @@ postfix_smtp_password: "lmrzrmovuymtrebr"
 ### Unattended - Email
 unattended_mail: "XXX"
 ```
-
 > In order to setup postfix, you should use an app password : https://support.google.com/mail/answer/185833?hl=en-GB
 
 ### Use playbook
