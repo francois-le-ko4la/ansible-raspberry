@@ -3,5 +3,6 @@ rasp_pkg:
   - rpi-eeprom
   - raspi-config
   - linux-firmware-raspi2
+  - pibootctl
 
 rasp_config: "/boot/firmware/config.txt"
