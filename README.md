@@ -44,9 +44,10 @@ sudo apt install openssh-server
 ```
 - Create a `Sudo User`
 ```console
-adduser <username>
-usermod -aG sudo <username>
-su - <username>
+sudo adduser <username>
+sudo usermod -aG sudo <username>
+sudo su - <username>
+exit
 ```
 In my environment, I use `svc_ansible`.
 
