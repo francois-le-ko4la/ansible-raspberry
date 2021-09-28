@@ -15,7 +15,10 @@ This script allows you to:
 - [x] Setup postfix with a GMail account
 - [x] Setup unattended upgrades
 - [x] Setup config.txt (server Vs Desktop)
-- [x] Install adguard-home (server)
+- [x] Install Docker (server)
+- [x] Install Portenaire (server)
+- [x] Install Adguard-home (server)
+- [x] Install Wireguard (server)
 - [x] Install multimedia packages (Desktop)
   - ubuntu-restricted-extras
   - libavcodec-extra

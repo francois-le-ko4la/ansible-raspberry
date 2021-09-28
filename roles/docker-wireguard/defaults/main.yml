@@ -1,0 +1,7 @@
+---
+container_name: wireguard
+docker_compose: docker-compose
+docker_root: /opt/wireguard-server
+docker_vol:
+  - wireguard
+ 

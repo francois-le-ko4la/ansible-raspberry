@@ -9,9 +9,10 @@
   remote_user: "{{ ansible_user }}"
   become: yes
   roles:
-    - ufw
-    - docker
-    - adguard-home
+    #- ufw
+    #- docker
+    - docker-adguardhome
+    - docker-wireguard
 
   tasks:
   - name: Congratulations!
