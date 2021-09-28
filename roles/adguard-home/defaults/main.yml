@@ -1,0 +1,10 @@
+---
+container_name: adguardhome
+systemd_adguard: adguardhome
+systemd_path: /etc/systemd/resolved.conf.d
+docker_compose: docker-compose
+docker_root: /opt/adguard-home
+docker_vol:
+  - conf
+  - work
+ 

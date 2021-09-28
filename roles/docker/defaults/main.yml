@@ -1,0 +1,15 @@
+---
+docker_prerequisites:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+  - python3-pip
+  - python3-setuptools
+  - gnupg-agent
+
+docker_pkg:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+

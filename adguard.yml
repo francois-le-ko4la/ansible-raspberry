@@ -4,9 +4,13 @@
 
 - name: Setup Adguard
   hosts: adguard
+  vars_files:
+    - group_vars/adguard.yml
   remote_user: "{{ ansible_user }}"
   become: yes
   roles:
+    - ufw
+    - docker
     - adguard-home
 
   tasks:

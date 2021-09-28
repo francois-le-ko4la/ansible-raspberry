@@ -5,10 +5,6 @@ apt_periodic: 15
 
 ufw_app_def:
   - openssh-server
-  - DNS
-  - HTML
 
 ufw_rules:
   - OpenSSH
-  - DNS
-  - HTML

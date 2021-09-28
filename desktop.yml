@@ -1,9 +1,11 @@
 ---
 
-# Playbook to manage Rasp/Ubuntu config
+# Playbook to manage Rasp/Ubuntu config (desktop)
 
 - name: Setup Ubuntu/Raspberry
   hosts: desktop
+  vars_files:
+    - group_vars/desktop.yml
   remote_user: "{{ ansible_user }}"
   become: yes
   roles:

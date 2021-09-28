@@ -2,7 +2,6 @@
 
 # Playbook to manage Rasp/Ubuntu config
 
-
 - import_playbook: desktop.yml
 - import_playbook: server.yml
 - import_playbook: adguard.yml

@@ -3,3 +3,4 @@ other_pkg:
   - htop
   - tasksel
   - fail2ban
+  - ppa-purge

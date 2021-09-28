@@ -8,4 +8,3 @@ ufw_app_def:
 
 ufw_rules:
   - OpenSSH
-

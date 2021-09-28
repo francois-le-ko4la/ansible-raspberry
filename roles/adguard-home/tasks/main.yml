@@ -1,8 +1,55 @@
 ---
+- name: Push systemd-resolved/DNS settings
+  template:
+    src: '{{ systemd_adguard }}.j2'
+    dest: '{{ systemd_path }}/{{ systemd_adguard }}.conf'
+    owner: root
+    group: root
+    mode: 0644
+  register: service_conf
+  tags:
+    - configuration
 
-- name: Install adguard-home
-  snap:
-    name: adguard-home
-    classic: yes
+- name: restart systemd-resolved service
+  service:
+    name: systemd-resolved
+    state: restarted
+  when: service_conf.changed
+  tags:
+    - configuration
+
+- name: Push docker-compose
+  template:
+    src: '{{ docker_compose }}.j2'
+    dest: '{{ docker_root }}/{{ docker_compose }}.yml'
+    owner: root
+    group: root
+    mode: 0644
+  register: service_conf
+  tags:
+    - configuration
+
+- name: Create docker volume if it does not exist
+  ansible.builtin.file:
+    path: "{{docker_root}}/{{item}}"
+    state: directory
+    mode: '0755'
+  with_items: "{{docker_vol}}"
+  tags:
+    - configuration
+
+- name: Get infos on container 
+  docker_container_info:
+    name: "{{ container_name }}"
+  register: result
   tags:
     - packages
+
+- name: Deploy the container
+  shell: docker-compose up -d
+  args:
+    chdir: "{{docker_root}}"
+  when: not result.exists
+  tags:
+    - packages
+

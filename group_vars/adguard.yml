@@ -1,0 +1,14 @@
+---
+my_profile: "Adguard"
+
+apt_periodic: 15
+
+ufw_app_def:
+  - DNS
+  - Docker-Portainer
+  - wireguard
+
+ufw_rules:
+  - DNS
+  - Docker-Portainer
+  - WG
