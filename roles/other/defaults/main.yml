@@ -1,6 +1,8 @@
 ---
 other_pkg:
+  - debsums
   - htop
   - tasksel
   - fail2ban
   - ppa-purge
+  - apt-show-versions
