@@ -42,6 +42,14 @@
   tags:
     - configuration
 
+- name: "Remove-New-Unused-Dependencies"
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    line: 'Unattended-Upgrade::Remove-New-Unused-Dependencies "true";'
+    insertafter: '^//Unattended-Upgrade::Remove-New-Unused-Dependencies '
+  tags:
+    - configuration
+
 - name: "Automatic-Reboot"
   lineinfile:
     dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
